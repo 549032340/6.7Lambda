@@ -5,6 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class MainTest {
 
@@ -25,7 +29,7 @@ public class MainTest {
 		return sum;
 	}
 	
-	@SuppressWarnings("unchecked")
+//	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
 		List<Person> list=new ArrayList<>();
 		list.add(new Person(1,"老王",1.8));
@@ -55,7 +59,30 @@ public class MainTest {
 //		salary.stream().map((sal) -> sal +  .2*sal).forEach(System.out::println);
 		System.out.println("----------------------");
 		
+		IntStream.of(5,10);
+		Stream.of("1","3","5").mapToInt(Integer::parseInt);
+		IntStream.builder().add(1).add(2).add(3).build();
+		IntStream.concat(IntStream.builder().add(1).build(),
+				IntStream.builder().add(1).build());
+		IntStream.generate(()->1).limit(30);
+		IntStream.iterate(0, n->n+3).limit(3).boxed().collect(Collectors.toList());
+		IntStream.range(30, 50);
+		IntStream.rangeClosed(30,50);
 		
-		
+		System.out.println("----------------------");
+		System.out.println("Fibonacci数列");
+		Supplier<Integer> supplier = new Supplier<Integer>() {
+			int i=1,j=1,sum;
+			public Integer get() {
+				i=j;
+				sum=i+j;
+				j=sum;
+				System.out.println("i: "+i+" j: "+j+" sum: "+sum);
+				return i;
+			}
+		};
+		IntStream.generate(()->supplier.get()).limit(10).forEach(System.out::println);
+		System.out.println("----------------------");
+		System.out.println();
 	}
 }
